@@ -1,0 +1,205 @@
+@import "tailwindcss";
+
+/* =============================================
+   主题系统 - CSS 变量驱动
+   通过 data-theme 属性切换：glass | pixel
+   ============================================= */
+
+/* ---- 毛玻璃 + 霓虹主题 ---- */
+:root,
+[data-theme="glass"] {
+  --bg-primary: #0f0f23;
+  --bg-secondary: #1a1a3e;
+  --bg-card: rgba(255, 255, 255, 0.06);
+  --bg-card-hover: rgba(255, 255, 255, 0.10);
+  --bg-overlay: rgba(0, 0, 0, 0.5);
+  --text-primary: #f0f0ff;
+  --text-secondary: #b0b0d0;
+  --text-muted: #7070a0;
+  --border: rgba(255, 255, 255, 0.12);
+  --border-glow: rgba(99, 102, 241, 0.4);
+  --accent: #818cf8;
+  --accent-2: #c084fc;
+  --accent-3: #22d3ee;
+  --accent-warm: #f472b6;
+  --blur-amount: 16px;
+  --radius-sm: 8px;
+  --radius: 16px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.3);
+  --shadow-glow: 0 0 20px rgba(129, 140, 248, 0.3);
+  --shadow-glow-strong: 0 0 40px rgba(192, 132, 252, 0.4);
+  --font-display: "Inter", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", monospace;
+  --btn-bg: rgba(255, 255, 255, 0.1);
+  --btn-hover: rgba(255, 255, 255, 0.2);
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ---- 复古像素风主题 ---- */
+[data-theme="pixel"] {
+  --bg-primary: #1a1c2c;
+  --bg-secondary: #292d43;
+  --bg-card: #2d3150;
+  --bg-card-hover: #383d60;
+  --bg-overlay: rgba(0, 0, 0, 0.7);
+  --text-primary: #e0e0f0;
+  --text-secondary: #b0b8d0;
+  --text-muted: #687090;
+  --border: #4a5080;
+  --border-glow: #5a60a0;
+  --accent: #6cc070;
+  --accent-2: #f0c040;
+  --accent-3: #40b8d0;
+  --accent-warm: #e06060;
+  --blur-amount: 0px;
+  --radius-sm: 0px;
+  --radius: 0px;
+  --radius-lg: 0px;
+  --radius-full: 0px;
+  --shadow-card: 4px 4px 0px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 4px 4px 0px rgba(108, 192, 112, 0.3);
+  --shadow-glow-strong: 6px 6px 0px rgba(240, 192, 64, 0.4);
+  --font-display: "Press Start 2P", "Zpix", "Fusion Pixel", "PingFang SC", "Microsoft YaHei", monospace;
+  --font-mono: "Press Start 2P", "Zpix", "Fusion Pixel", monospace;
+  --btn-bg: #383d60;
+  --btn-hover: #4a5080;
+  --transition: 0.05s steps(1);
+}
+
+/* 像素主题字号补偿 */
+[data-theme="pixel"] {
+  font-size: 13px;
+}
+
+/* =============================================
+   全局基础
+   ============================================= */
+
+body {
+  font-family: var(--font-display);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100dvh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  margin: 0;
+}
+
+#root {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 毛玻璃基础 */
+.glass {
+  background: var(--bg-card);
+  backdrop-filter: blur(var(--blur-amount));
+  -webkit-backdrop-filter: blur(var(--blur-amount));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+}
+
+.glass-strong {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(var(--blur-amount));
+  -webkit-backdrop-filter: blur(var(--blur-amount));
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius);
+}
+
+/* 渐变背景动画 */
+.bg-animated {
+  background: linear-gradient(
+    135deg,
+    var(--bg-primary) 0%,
+    color-mix(in srgb, var(--accent) 15%, var(--bg-primary)) 50%,
+    color-mix(in srgb, var(--accent-2) 10%, var(--bg-primary)) 100%
+  );
+  background-size: 400% 400%;
+  animation: bgShift 15s ease infinite;
+}
+
+@keyframes bgShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* 按钮 */
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  color: #fff;
+  font-weight: 600;
+  border-radius: var(--radius);
+  padding: 0.75rem 1.5rem;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition);
+  box-shadow: var(--shadow-glow);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn-primary:active {
+  transform: scale(0.96);
+  box-shadow: var(--shadow-glow-strong);
+}
+
+.btn-glass {
+  background: var(--btn-bg);
+  backdrop-filter: blur(var(--blur-amount));
+  -webkit-backdrop-filter: blur(var(--blur-amount));
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-primary);
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  transition: all var(--transition);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn-glass:hover, .btn-glass:active {
+  background: var(--btn-hover);
+}
+
+/* 滚动条 */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+}
+
+/* 像素主题覆写 */
+[data-theme="pixel"] .glass,
+[data-theme="pixel"] .glass-strong {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: 3px solid var(--border);
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="pixel"] .btn-primary {
+  border: 3px solid rgba(0,0,0,0.3);
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.5);
+}
+[data-theme="pixel"] .btn-primary:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="pixel"] .btn-glass {
+  border: 3px solid var(--border);
+  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.5);
+}
+[data-theme="pixel"] .btn-glass:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.5);
+}

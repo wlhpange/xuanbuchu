@@ -14,6 +14,7 @@ dist-ssr
 
 # AI 工具本地配置
 .agents/
+AGENTS.md
 
 # Editor directories and files
 .vscode/*
